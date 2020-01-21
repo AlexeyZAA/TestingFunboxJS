@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { Layout, Input, List, Button } from 'antd';
 
 
-const { Header, Content, Footer, Sider } = Layout
+
+const { Sider } = Layout
 
 class Sid extends React.Component {
   state = {
@@ -49,8 +50,10 @@ for (let i=0; i < newitemarr.length; i++){
   })
  };
 
+
   render() {
       return (
+
         <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -64,6 +67,7 @@ for (let i=0; i < newitemarr.length; i++){
       >
       <Input placeholder="Новая точка маршрута" onKeyUp={ this.inputPointClean } onKeyDown={ this.handleEnter } />
       <div class="listpoint">
+
       <List
           itemLayout="horizontal"
           dataSource={this.state.datapointlist}

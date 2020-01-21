@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Myfullname from "../Myfullname";
 import Sid from "../Sid";
-import Ymap from "../Ymap";
+import Ymap from "../ym/Ymap";
 import { Layout } from "antd";
 
 import "./pointform.css";
