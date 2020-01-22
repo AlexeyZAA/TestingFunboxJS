@@ -12,7 +12,7 @@ class Pointform extends React.Component {
   state = {};
   render() {
     return (
-      <Layout style={{ width: "890px" }}>
+      <Layout style={{ width: "100%" }}>
         <Header style={{ background: "#fff", textAlign: "center" }}>
           <h1>
             <span style={{ fontWeight: "bold" }}>Построение маршрута</span>
@@ -21,7 +21,7 @@ class Pointform extends React.Component {
         <Layout>
           <Sid />
           <Content style={{ margin: "24px 16px 0" }}>
-            {/*<Ymap />*/}
+            <Ymap />
           </Content>
         </Layout>
         <Footer style={{ textAlign: "center" }}>

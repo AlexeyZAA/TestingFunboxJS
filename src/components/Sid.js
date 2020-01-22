@@ -7,20 +7,17 @@ import "./Sid.css";
 const { Sider } = Layout;
 
 const SortableItem = sortableElement(({ value }) => (
-    <li>
-      {value[0]}
-    </li>
-
+  <div className={"dli"}>{value[0]}</div>
 ));
 const SortableContainer = sortableContainer(({ children }) => {
-  return <ul className={ 'list6b' }>{children}</ul>;
+  return <div className={"dul"}>{children}</div>;
 });
 
 class Sid extends React.Component {
   state = {
     collapsed: false,
     inputpoint: "",
-    items: [],
+    items: []
   };
 
   getState = () => {
@@ -29,24 +26,24 @@ class Sid extends React.Component {
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState(({ items }) => ({
-      items: arrayMove(items, oldIndex, newIndex),
+      items: arrayMove(items, oldIndex, newIndex)
     }));
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !this.state.collapsed
     });
   };
 
   handleEnter = event => {
     if (event.keyCode === 13) {
       this.setState({
-        inputpoint: event.target.value,
+        inputpoint: event.target.value
       });
       this.state.items.push({
         title: event.target.value,
-        key: this.state.items.length,
+        key: this.state.items.length
       });
     }
   };
@@ -66,7 +63,7 @@ class Sid extends React.Component {
       newitemarr[i]["key"] = i;
     }
     this.setState({
-      items: newitemarr,
+      items: newitemarr
     });
     this.inputpoint = "";
   };
@@ -95,21 +92,19 @@ class Sid extends React.Component {
         <SortableContainer onSortEnd={this.onSortEnd}>
           {items.map((value, index) => (
             <div>
-              <div className={ 'lival' }>
               <SortableItem
                 key={`item-${value.title}`}
                 index={index}
                 value={[value.title, index]}
-              ></SortableItem>
-              </div>
-              <div className={ 'libtn' }>
-                <Button
-                  type="primary"
-                  shape="circle"
-                  onClick={() => this.itempointDel(value.key)}
-                >
-                  del
-                </Button>
+              />
+              <div className={"btnD"}>
+              <Button
+                type="primary"
+                shape="circle"
+                onClick={() => this.itempointDel(value.key)}
+              >
+                del
+              </Button>
               </div>
             </div>
           ))}
