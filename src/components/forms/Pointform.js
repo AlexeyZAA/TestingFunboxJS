@@ -21,7 +21,7 @@ class Pointform extends React.Component {
         <Layout>
           <Sid />
           <Content style={{ margin: "24px 16px 0" }}>
-            <Ymap />
+            {/*<Ymap />*/}
           </Content>
         </Layout>
         <Footer style={{ textAlign: "center" }}>
