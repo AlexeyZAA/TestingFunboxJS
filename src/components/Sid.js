@@ -6,29 +6,20 @@ import "./Sid.css";
 
 const { Sider } = Layout;
 
-{
-  /** for list */
-}
 const SortableItem = sortableElement(({ value }) => (
-  <li>
-    <div>{value[0]}</div>
-  </li>
+    <li>
+      {value[0]}
+    </li>
+
 ));
 const SortableContainer = sortableContainer(({ children }) => {
-  return <ul>{children}</ul>;
+  return <ul className={ 'list6b' }>{children}</ul>;
 });
 
 class Sid extends React.Component {
   state = {
     collapsed: false,
     inputpoint: "",
-    /*
-    items: [
-      { key: 0, title: "ss" },
-      { key: 1, title: "WW" },
-      { key: 2, title: "QQ" },
-    ],
-    */
     items: [],
   };
 
@@ -58,13 +49,11 @@ class Sid extends React.Component {
         key: this.state.items.length,
       });
     }
-    
   };
   inputPointClean = event => {
-    if (event.keyCode === 13){
-        event.target.value = "";
+    if (event.keyCode === 13) {
+      event.target.value = "";
     }
-   
   };
 
   itempointDel = param => {
@@ -79,8 +68,8 @@ class Sid extends React.Component {
     this.setState({
       items: newitemarr,
     });
-    this.inputpoint = ""
-};
+    this.inputpoint = "";
+  };
 
   render() {
     const { items } = this.state;
@@ -103,15 +92,17 @@ class Sid extends React.Component {
           onKeyDown={this.handleEnter}
         />
 
-        <SortableContainer onSortEnd={this.onSortEnd} disableAutoscroll="true">
+        <SortableContainer onSortEnd={this.onSortEnd}>
           {items.map((value, index) => (
             <div>
+              <div className={ 'lival' }>
               <SortableItem
                 key={`item-${value.title}`}
                 index={index}
                 value={[value.title, index]}
               ></SortableItem>
-              <div>
+              </div>
+              <div className={ 'libtn' }>
                 <Button
                   type="primary"
                   shape="circle"

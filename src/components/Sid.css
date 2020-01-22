@@ -1,4 +1,25 @@
-.List ul{
-  background-color: red;
-  list-style-type: none;
+.list6b {
+  padding:0;
+  list-style: none;
 }
+.list6b li{
+  padding:6px;
+}
+.list6b li:before {
+  padding-right:10px;
+  font-weight: bold;
+  color: #C0C0C0;
+  content: "\2714";
+}
+
+
+.lival {
+  float: left;
+  width: 140px;
+  border-bottom: solid 1px antiquewhite;
+}
+
+.libtn {
+  float: right;
+}
+
