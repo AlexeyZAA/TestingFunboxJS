@@ -3,27 +3,21 @@ import { YMaps, Map, GeoObject, Placemark, Circle } from "react-yandex-maps";
 
 const mapState = { center: [53.353929, 83.768455], zoom: 15 };
 
-
-const pointsarr = [
-  {
-    geometry: { type: 'Point',coordinates: [53.354160, 83.766278] },
-    properties: { iconContent: '', hintContent: 'можно таскать'},
-    options: { preset: 'islands#circleIcon', draggable: true}
-  }
-];
+const t = [{"geometry":{"type":"Point","coordinates":[53.35416,83.766278]},
+"properties":{"iconContent":"","hintContent":"можно таскать"},
+"options":{"preset":"islands#circleIcon","draggable":true}}];
 
 class Ymap extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      center: mapState.center,
+     };
 
     this.state = {
-      pointsmap: props.pointsarr,
+      point: this.props.pointsarr
     };
   }
-
-  state = {
-    center: mapState.center,
-  };
 
   onBoundsChange = () => {
     this.setState({
@@ -46,29 +40,18 @@ class Ymap extends React.Component {
             instanceRef={map => this.setState({ map })}
             onBoundsChange={this.onBoundsChange}
           >
-
-<GeoObject
-        geometry={{
-          type: 'Point',
-          coordinates: [53.354512, 83.769869],
-        }}
-        properties={{
-          iconContent: '',
-          hintContent: 'можно таскать',
-        }}
-        options={{
-          preset: 'islands#circleIcon',
-          draggable: true,
-        }}
-      />
-
-      {pointsarr.map((pointParams, i) =>
-        <Placemark key={i} {...pointParams} />
-      )}
+            {t.map((pointParams, i) => (
+              <Placemark key={i} {...pointParams} />
+            ))}
           </Map>
         </YMaps>
         <div>Center: {JSON.stringify(this.state.center)}</div>
         <button onClick={() => this.instPoint()}>Ok</button>
+        <button
+          onClick={() => alert(JSON.stringify(this.props.pointsarr[0].par))}
+        >
+          Point
+        </button>
       </div>
     );
   }

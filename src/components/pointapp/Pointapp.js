@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import Myfullname from "../Myfullname";
-//import Sid from "../Sid";
 import "./Sid.css";
 import Ymap from "../ym/Ymap";
-import { Layout, Input, Button  } from "antd";
+import { Layout, Input, Button } from "antd";
 
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
@@ -24,7 +23,8 @@ class Pointapp extends React.Component {
   state = {
     collapsed: false,
     inputpoint: "",
-    items: []
+    items: [],
+    geoObjPar: [],
   };
 
   getState = () => {
@@ -33,24 +33,38 @@ class Pointapp extends React.Component {
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState(({ items }) => ({
-      items: arrayMove(items, oldIndex, newIndex)
+      items: arrayMove(items, oldIndex, newIndex),
     }));
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
   handleEnter = event => {
     if (event.keyCode === 13) {
       this.setState({
-        inputpoint: event.target.value
+        inputpoint: event.target.value,
       });
+
       this.state.items.push({
         title: event.target.value,
-        key: this.state.items.length
+        key: this.state.items.length,
+        par: {
+          geometry: { type: "Point", coordinates: [53.35416, 83.766278] },
+          properties: { iconContent: "", hintContent: "можно таскать" },
+          options: { preset: "islands#circleIcon", draggable: true },
+        },
+      });
+
+      let geoArr = [];
+      for (let j = 0; j < this.state.items.length; j++) {
+        geoArr.push(this.state.items[j].par);
+      }
+      this.setState({
+        geoObjPar: geoArr,
       });
     }
   };
@@ -70,7 +84,7 @@ class Pointapp extends React.Component {
       newitemarr[i]["key"] = i;
     }
     this.setState({
-      items: newitemarr
+      items: newitemarr,
     });
     this.inputpoint = "";
   };
@@ -102,14 +116,14 @@ class Pointapp extends React.Component {
               onKeyDown={this.handleEnter}
             />
             <SortableContainer onSortEnd={this.onSortEnd}>
+              
               {items.map((value, index) => (
                 <div>
                   <SortableItem
-                    key={`item-${value.title}`}
+                    key={value.title}
                     index={index}
                     value={[value.title, index]}
                   />
-                  <div className={"btnD"}>
                     <Button
                       type="primary"
                       shape="circle"
@@ -117,13 +131,13 @@ class Pointapp extends React.Component {
                     >
                       del
                     </Button>
-                  </div>
                 </div>
               ))}
+              
             </SortableContainer>
           </Sider>
           <Content style={{ margin: "24px 16px 0" }}>
-            <Ymap pointsarr={this.state.items} />
+            <Ymap pointsarr={this.state.geoObjPar} />
           </Content>
         </Layout>
         <Footer style={{ textAlign: "center" }}>
