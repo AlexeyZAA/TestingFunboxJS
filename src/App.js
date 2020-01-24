@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css'; 
 
-import Pointform from './components/forms/Pointform';
+import Pointapp from './components/pointapp/Pointapp';
 
 const App = () => (
   <div>
-    <Pointform />
+    <Pointapp />
   </div>
 
 );
