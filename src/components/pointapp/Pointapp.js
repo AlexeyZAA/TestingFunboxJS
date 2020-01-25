@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import Myfullname from "../Myfullname";
 import "./Sid.css";
-import Ymap from "../ym/Ymap";
+//import Ymap from "../ym/Ymap";
 import { Layout, Input, Button } from "antd";
+import { YMaps, Map, GeoObject, Placemark, Circle } from "react-yandex-maps";
 
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import "./Pointapp.css";
 
 const { Sider } = Layout;
+
+const mapState = { center: [53.353929, 83.768455], zoom: 15 };
 
 const SortableItem = sortableElement(({ value }) => (
   <div className={"dli"}>{value[0]}</div>
@@ -25,6 +28,7 @@ class Pointapp extends React.Component {
     inputpoint: "",
     items: [],
     geoObjPar: [],
+    center: []
   };
 
   getState = () => {
@@ -33,20 +37,20 @@ class Pointapp extends React.Component {
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState(({ items }) => ({
-      items: arrayMove(items, oldIndex, newIndex),
+      items: arrayMove(items, oldIndex, newIndex)
     }));
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !this.state.collapsed
     });
   };
 
   handleEnter = event => {
     if (event.keyCode === 13) {
       this.setState({
-        inputpoint: event.target.value,
+        inputpoint: event.target.value
       });
 
       this.state.items.push({
@@ -55,19 +59,20 @@ class Pointapp extends React.Component {
         par: {
           geometry: { type: "Point", coordinates: [53.35416, 83.766278] },
           properties: { iconContent: "", hintContent: "можно таскать" },
-          options: { preset: "islands#circleIcon", draggable: true },
-        },
+          options: { preset: "islands#circleIcon", draggable: true }
+        }
       });
-
+      /** делаем массив параметров для геообъектов (вынести в метод)*/
       let geoArr = [];
       for (let j = 0; j < this.state.items.length; j++) {
         geoArr.push(this.state.items[j].par);
       }
       this.setState({
-        geoObjPar: geoArr,
+        geoObjPar: geoArr
       });
     }
   };
+
   inputPointClean = event => {
     if (event.keyCode === 13) {
       event.target.value = "";
@@ -76,17 +81,46 @@ class Pointapp extends React.Component {
 
   itempointDel = param => {
     let newitemarr = [];
+    /** делаем новый массив с нужными данными, присваиваем его state items */
     newitemarr = this.state.items.filter(item => {
       return item.key !== param;
     });
-
     for (let i = 0; i < newitemarr.length; i++) {
       newitemarr[i]["key"] = i;
     }
-    this.setState({
-      items: newitemarr,
+    //через келбэк получаем измененное состояние и переделываем параметры точек
+    this.setState({ items: newitemarr }, () => {
+      /** делаем массив параметров для геообъектов (вынести в метод)*/
+      let geoArrD = [];
+      for (let j = 0; j < this.state.items.length; j++) {
+        geoArrD.push(this.state.items[j].par);
+      }
+      this.setPointPar(geoArrD);
     });
-    this.inputpoint = "";
+  };
+
+  /** Обновление объекта параметров точки */
+  setPointPar = par => {
+    this.setState({
+      geoObjPar: par
+    });
+  };
+
+  /** обновление items */
+  itemsUpdate = itempar => {
+    this.setState({
+      items: itempar
+    });
+  };
+  /** ДЛЯ карты */
+  onBoundsChange = () => {
+    this.setState({
+      center: this.state.map.getCenter()
+    });
+  };
+
+  instPoint = () => {
+    alert(JSON.stringify(this.state.center));
   };
 
   render() {
@@ -116,7 +150,6 @@ class Pointapp extends React.Component {
               onKeyDown={this.handleEnter}
             />
             <SortableContainer onSortEnd={this.onSortEnd}>
-              
               {items.map((value, index) => (
                 <div>
                   <SortableItem
@@ -124,20 +157,43 @@ class Pointapp extends React.Component {
                     index={index}
                     value={[value.title, index]}
                   />
-                    <Button
-                      type="primary"
-                      shape="circle"
-                      onClick={() => this.itempointDel(value.key)}
-                    >
-                      del
-                    </Button>
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    onClick={() => this.itempointDel(value.key)}
+                  >
+                    del
+                  </Button>
                 </div>
               ))}
-              
             </SortableContainer>
           </Sider>
           <Content style={{ margin: "24px 16px 0" }}>
-            <Ymap pointsarr={this.state.geoObjPar} />
+            {/*<Ymap pointsarr={this.state.geoObjPar} />*/}
+            <div>
+              <YMaps>
+                <Map
+                  width="100%"
+                  height="600px"
+                  state={mapState}
+                  instanceRef={map => this.setState({ map })}
+                  onBoundsChange={this.onBoundsChange}
+                >
+                  {this.state.geoObjPar.map((pointParams, i) => (
+                    <Placemark key={i} {...pointParams} />
+                  ))}
+                </Map>
+              </YMaps>
+              <div>Center: {JSON.stringify(this.state.center)}</div>
+              <button onClick={() => this.instPoint()}>Ok</button>
+              <button
+                onClick={() =>
+                  alert(JSON.stringify(this.props.pointsarr[0].par))
+                }
+              >
+                Point
+              </button>
+            </div>
           </Content>
         </Layout>
         <Footer style={{ textAlign: "center" }}>
