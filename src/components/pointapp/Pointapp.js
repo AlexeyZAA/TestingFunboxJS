@@ -78,6 +78,10 @@ class Pointapp extends React.Component {
       event.target.value = "";
     }
   };
+  /** изменяем состояние для инпута */
+  inputChange = ev => {
+    this.setState({inputpoint: ev.target.value});
+  }
 
   itempointDel = param => {
     let newitemarr = [];
@@ -97,6 +101,7 @@ class Pointapp extends React.Component {
       }
       this.setPointPar(geoArrD);
     });
+    this.setState({inputpoint: ""})
   };
 
   /** Обновление объекта параметров точки */
@@ -147,7 +152,9 @@ class Pointapp extends React.Component {
             <Input
               placeholder="Новая точка маршрута"
               onKeyUp={this.inputPointClean}
-              onKeyDown={this.handleEnter}
+              onPressEnter={this.handleEnter}
+              value={this.state.inputpoint}
+              onChange={this.inputChange}
             />
             <SortableContainer onSortEnd={this.onSortEnd}>
               {items.map((value, index) => (
@@ -160,7 +167,7 @@ class Pointapp extends React.Component {
                   <Button
                     type="primary"
                     shape="circle"
-                    onClick={() => this.itempointDel(value.key)}
+                    onClick={() => {this.itempointDel(value.key); () => {} }}
                   >
                     del
                   </Button>
