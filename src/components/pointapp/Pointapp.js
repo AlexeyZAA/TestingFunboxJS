@@ -42,7 +42,10 @@ class Pointapp extends React.Component {
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState(({ items }) => ({
       items: arrayMove(items, oldIndex, newIndex)
-    }));
+    }),
+    ()=>{
+      this.pointCoordUpdate()
+    });
   };
 
   toggle = () => {
@@ -110,7 +113,7 @@ class Pointapp extends React.Component {
       for (let j = 0; j < this.state.items.length; j++) {
         geoArrD.push(this.state.items[j].par);
       }
-      this.setPointPar(geoArrD);
+      this.pointCoordUpdate();
     });
     this.setState({ inputpoint: "" });
   };
@@ -137,11 +140,25 @@ class Pointapp extends React.Component {
 
   setCoordPoint = (paramkey, e) => {
     let itemcoord = this.state.items
+    //пока тащим узел, изменяем состояние во временном массивеб и сохраняем в рабочем состоянии для геообъектов 
     itemcoord[paramkey].par.geometry.coordinates = e.get('target').geometry.getCoordinates() 
-    this.setState({
-      pointmove: paramkey
+    //после изменения состояния с координатами, которыми все объекты пользуются, делаем координаты для узлов линии
+    this.setState({items: itemcoord}, () =>{
+      this.pointCoordUpdate();
     })
+  };
+  //метод обновления состояния координат для точек
+  pointCoordUpdate() {
+    let tmpCoordPoint = [];
+    for (let t = 0; t < this.state.items.length; t++) {
+      tmpCoordPoint.push(this.state.items[t].par.geometry.coordinates);
+    }
+    this.setState({
+      points: tmpCoordPoint,
+    });
   }
+
+  //метод обновления состояния для координат точек
 
   render() {
     const { items } = this.state;
@@ -236,12 +253,10 @@ class Pointapp extends React.Component {
                         return items;
                       }
                     }}
-
                   />
                 </Map>
               </YMaps>
               <div>Center: {JSON.stringify(this.state.center)}</div>
-              <div>Коорд точки: {JSON.stringify(this.state.pointmove)}</div>
             </div>
           </Content>
         </Layout>
