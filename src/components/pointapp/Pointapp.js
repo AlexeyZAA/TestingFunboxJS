@@ -3,7 +3,7 @@ import Myfullname from "../Myfullname";
 import "./Sid.css";
 //import Ymap from "../ym/Ymap";
 import { Layout, Input, Button } from "antd";
-import { YMaps, Map, GeoObject, Placemark, Circle } from "react-yandex-maps";
+import { YMaps, Map, Placemark, Polyline } from "react-yandex-maps";
 
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
@@ -23,13 +23,17 @@ const SortableContainer = sortableContainer(({ children }) => {
 const { Header, Content, Footer } = Layout;
 
 class Pointapp extends React.Component {
-  state = {
-    collapsed: false,
-    inputpoint: "",
-    items: [],
-    geoObjPar: [],
-    center: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: false,
+      inputpoint: "",
+      items: [],
+      center: mapState.center,
+      points: [],
+      pointmove: [53.353929, 83.768455]
+    };
+  }
 
   getState = () => {
     return this.state.items;
@@ -49,39 +53,46 @@ class Pointapp extends React.Component {
 
   handleEnter = event => {
     if (event.keyCode === 13) {
-      this.setState({
-        inputpoint: event.target.value
-      });
-
-      this.state.items.push({
+      this.setState({inputpoint: event.target.value});
+      let pointArr = this.state.items;
+      pointArr.push({
         title: event.target.value,
         key: this.state.items.length,
         par: {
-          geometry: { type: "Point", coordinates: [53.35416, 83.766278] },
-          properties: { iconContent: "", hintContent: "можно таскать" },
+          geometry: { type: "Point", coordinates: this.state.center },
+          properties: {
+            iconContent: "",
+            hintContent: "Узел маршрута",
+            balloonContentHeader: "Название узла",
+            balloonContentBody: event.target.value,
+            balloonContentFooter: "Балун всплывайка"
+          },
           options: { preset: "islands#circleIcon", draggable: true }
         }
       });
-      /** делаем массив параметров для геообъектов (вынести в метод)*/
-      let geoArr = [];
-      for (let j = 0; j < this.state.items.length; j++) {
-        geoArr.push(this.state.items[j].par);
-      }
-      this.setState({
-        geoObjPar: geoArr
-      });
-    }
+      this.setState({items: pointArr}, () =>{
+        let pointCoord = [];
+        for (let i = 0; i < this.state.items.length; i++) {
+          pointCoord.push(this.state.items[i].par.geometry.coordinates);
+        }
+        this.setState({
+          points: pointCoord,
+        })
+      })
+     }
   };
 
   inputPointClean = event => {
     if (event.keyCode === 13) {
-      event.target.value = "";
+      this.setState({
+        inputpoint: ""
+      });
     }
   };
   /** изменяем состояние для инпута */
   inputChange = ev => {
-    this.setState({inputpoint: ev.target.value});
-  }
+    this.setState({ inputpoint: ev.target.value });
+  };
 
   itempointDel = param => {
     let newitemarr = [];
@@ -101,7 +112,7 @@ class Pointapp extends React.Component {
       }
       this.setPointPar(geoArrD);
     });
-    this.setState({inputpoint: ""})
+    this.setState({ inputpoint: "" });
   };
 
   /** Обновление объекта параметров точки */
@@ -124,9 +135,13 @@ class Pointapp extends React.Component {
     });
   };
 
-  instPoint = () => {
-    alert(JSON.stringify(this.state.center));
-  };
+  setCoordPoint = (paramkey, e) => {
+    let itemcoord = this.state.items
+    itemcoord[paramkey].par.geometry.coordinates = e.get('target').geometry.getCoordinates() 
+    this.setState({
+      pointmove: paramkey
+    })
+  }
 
   render() {
     const { items } = this.state;
@@ -167,7 +182,10 @@ class Pointapp extends React.Component {
                   <Button
                     type="primary"
                     shape="circle"
-                    onClick={() => {this.itempointDel(value.key); () => {} }}
+                    onClick={() => {
+                      this.itempointDel(value.key);
+                      () => {};
+                    }}
                   >
                     del
                   </Button>
@@ -176,7 +194,7 @@ class Pointapp extends React.Component {
             </SortableContainer>
           </Sider>
           <Content style={{ margin: "24px 16px 0" }}>
-            {/*<Ymap pointsarr={this.state.geoObjPar} />*/}
+
             <div>
               <YMaps>
                 <Map
@@ -186,20 +204,44 @@ class Pointapp extends React.Component {
                   instanceRef={map => this.setState({ map })}
                   onBoundsChange={this.onBoundsChange}
                 >
-                  {this.state.geoObjPar.map((pointParams, i) => (
-                    <Placemark key={i} {...pointParams} />
+
+                  {this.state.items.map((pointParams, i) => (
+                    <Placemark onDrag={(e) => this.setCoordPoint(i, e)} key={i} {...pointParams.par} />
                   ))}
+                  }
+                  
+                  <Polyline
+                    //instanceRef={polyline => polyline.editor.startEditing()}
+                    geometry={{
+                      coordinates: this.state.points
+                    }}
+                    properties={{
+                      hintContent: "Редактируйте маршрут",
+                      balloonContentHeader: "Строим маршрут",
+                      balloonContentBody: "Описание маршрута",
+                      balloonContentFooter: "Маршрут Иванова И.И." 
+                    }}
+                    options={{
+                      strokeColor: "#00000088",
+                      editorMaxPoints: 0,
+                      strokeWidth: 10,
+                      strokeOpacity: 0.5,
+                      editorMenuManager: function(items) {
+                        items.push({
+                          title: "Дополнительный пункт меню",
+                          onClick: (e) => {
+                            alert('JSON.stringify(e)')
+                          }, 
+                        });
+                        return items;
+                      }
+                    }}
+
+                  />
                 </Map>
               </YMaps>
               <div>Center: {JSON.stringify(this.state.center)}</div>
-              <button onClick={() => this.instPoint()}>Ok</button>
-              <button
-                onClick={() =>
-                  alert(JSON.stringify(this.props.pointsarr[0].par))
-                }
-              >
-                Point
-              </button>
+              <div>Коорд точки: {JSON.stringify(this.state.pointmove)}</div>
             </div>
           </Content>
         </Layout>
