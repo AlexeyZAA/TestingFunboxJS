@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import Pointapp from './components/pointapp/Pointapp';
 
 const App = () => (
-  <div>
+  <div class="myapp">
     <Pointapp />
   </div>
 

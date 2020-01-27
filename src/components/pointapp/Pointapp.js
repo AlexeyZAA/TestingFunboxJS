@@ -14,8 +14,10 @@ const { Sider } = Layout;
 const mapState = { center: [53.353929, 83.768455], zoom: 15 };
 
 const SortableItem = sortableElement(({ value }) => (
-  <div className={"dli"}>{value[0]}</div>
+  <div className={"dli"}>{value}</div>
 ));
+
+
 const SortableContainer = sortableContainer(({ children }) => {
   return <div className={"dul"}>{children}</div>;
 });
@@ -31,7 +33,7 @@ class Pointapp extends React.Component {
       items: [],
       center: mapState.center,
       points: [],
-      pointmove: [53.353929, 83.768455]
+      pointmove: [53.353929, 83.768455],
     };
   }
 
@@ -40,23 +42,25 @@ class Pointapp extends React.Component {
   };
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.setState(({ items }) => ({
-      items: arrayMove(items, oldIndex, newIndex)
-    }),
-    ()=>{
-      this.pointCoordUpdate()
-    });
+    this.setState(
+      ({ items }) => ({
+        items: arrayMove(items, oldIndex, newIndex),
+      }),
+      () => {
+        this.pointCoordUpdate();
+      },
+    );
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
   handleEnter = event => {
     if (event.keyCode === 13) {
-      this.setState({inputpoint: event.target.value});
+      this.setState({ inputpoint: event.target.value });
       let pointArr = this.state.items;
       pointArr.push({
         title: event.target.value,
@@ -68,27 +72,27 @@ class Pointapp extends React.Component {
             hintContent: "Узел маршрута",
             balloonContentHeader: "Название узла",
             balloonContentBody: event.target.value,
-            balloonContentFooter: "Балун всплывайка"
+            balloonContentFooter: "Балун всплывайка",
           },
-          options: { preset: "islands#circleIcon", draggable: true }
-        }
+          options: { preset: "islands#circleIcon", draggable: true },
+        },
       });
-      this.setState({items: pointArr}, () =>{
+      this.setState({ items: pointArr }, () => {
         let pointCoord = [];
         for (let i = 0; i < this.state.items.length; i++) {
           pointCoord.push(this.state.items[i].par.geometry.coordinates);
         }
         this.setState({
           points: pointCoord,
-        })
-      })
-     }
+        });
+      });
+    }
   };
 
   inputPointClean = event => {
     if (event.keyCode === 13) {
       this.setState({
-        inputpoint: ""
+        inputpoint: "",
       });
     }
   };
@@ -121,31 +125,33 @@ class Pointapp extends React.Component {
   /** Обновление объекта параметров точки */
   setPointPar = par => {
     this.setState({
-      geoObjPar: par
+      geoObjPar: par,
     });
   };
 
   /** обновление items */
   itemsUpdate = itempar => {
     this.setState({
-      items: itempar
+      items: itempar,
     });
   };
   /** ДЛЯ карты */
   onBoundsChange = () => {
     this.setState({
-      center: this.state.map.getCenter()
+      center: this.state.map.getCenter(),
     });
   };
 
   setCoordPoint = (paramkey, e) => {
-    let itemcoord = this.state.items
-    //пока тащим узел, изменяем состояние во временном массивеб и сохраняем в рабочем состоянии для геообъектов 
-    itemcoord[paramkey].par.geometry.coordinates = e.get('target').geometry.getCoordinates() 
+    let itemcoord = this.state.items;
+    //пока тащим узел, изменяем состояние во временном массивеб и сохраняем в рабочем состоянии для геообъектов
+    itemcoord[paramkey].par.geometry.coordinates = e
+      .get("target")
+      .geometry.getCoordinates();
     //после изменения состояния с координатами, которыми все объекты пользуются, делаем координаты для узлов линии
-    this.setState({items: itemcoord}, () =>{
+    this.setState({ items: itemcoord }, () => {
       this.pointCoordUpdate();
-    })
+    });
   };
   //метод обновления состояния координат для точек
   pointCoordUpdate() {
@@ -188,30 +194,31 @@ class Pointapp extends React.Component {
               value={this.state.inputpoint}
               onChange={this.inputChange}
             />
+            
             <SortableContainer onSortEnd={this.onSortEnd}>
-              {items.map((value, index) => (
-                <div>
-                  <SortableItem
-                    key={value.title}
-                    index={index}
-                    value={[value.title, index]}
-                  />
-                  <Button
-                    type="primary"
-                    shape="circle"
-                    onClick={() => {
+              {
+                items.map((value, index) => (
+                  <div>
+                    <SortableItem
+                      key={`item-${index}`}
+                      index={index}
+                      value={value.title}
+                    />
+                    <Button
+                      type="primary"
+                      shape="circle"
+                      onClick={() => {
                       this.itempointDel(value.key);
-                      () => {};
-                    }}
-                  >
-                    del
-                  </Button>
-                </div>
-              ))}
+                      }}
+                    >
+                      del
+                    </Button>
+                  </div>
+                ))
+              }
             </SortableContainer>
           </Sider>
           <Content style={{ margin: "24px 16px 0" }}>
-
             <div>
               <YMaps>
                 <Map
@@ -221,22 +228,24 @@ class Pointapp extends React.Component {
                   instanceRef={map => this.setState({ map })}
                   onBoundsChange={this.onBoundsChange}
                 >
-
                   {this.state.items.map((pointParams, i) => (
-                    <Placemark onDrag={(e) => this.setCoordPoint(i, e)} key={i} {...pointParams.par} />
+                    <Placemark
+                      onDrag={e => this.setCoordPoint(i, e)}
+                      key={i}
+                      {...pointParams.par}
+                    />
                   ))}
                   }
-                  
                   <Polyline
                     //instanceRef={polyline => polyline.editor.startEditing()}
                     geometry={{
-                      coordinates: this.state.points
+                      coordinates: this.state.points,
                     }}
                     properties={{
                       hintContent: "Редактируйте маршрут",
                       balloonContentHeader: "Строим маршрут",
                       balloonContentBody: "Описание маршрута",
-                      balloonContentFooter: "Маршрут Иванова И.И." 
+                      balloonContentFooter: "Маршрут Иванова И.И.",
                     }}
                     options={{
                       strokeColor: "#00000088",
@@ -246,12 +255,12 @@ class Pointapp extends React.Component {
                       editorMenuManager: function(items) {
                         items.push({
                           title: "Дополнительный пункт меню",
-                          onClick: (e) => {
-                            alert('JSON.stringify(e)')
-                          }, 
+                          onClick: e => {
+                            alert("JSON.stringify(e)");
+                          },
                         });
                         return items;
-                      }
+                      },
                     }}
                   />
                 </Map>
