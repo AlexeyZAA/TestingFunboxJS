@@ -1,26 +1,11 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import {sortableContainer, sortableElement} from 'react-sortable-hoc';
-import arrayMove from 'array-move';
+import React from 'react';
+import Enzyme, { shallow, render, mount } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import Pointapp from "./Pointapp"
 
-const SortableItem = sortableElement(({value}) => <li>{value}</li>);
+Enzyme.configure({ adapter: new Adapter() })
 
-const SortableContainer = sortableContainer(({children}) => {
-  return <ul>{children}</ul>;
-});
-
-items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'];
-
-onSortEnd = ({oldIndex, newIndex}) => {
-  this.setState(({items}) => ({
-    items: arrayMove(items, oldIndex, newIndex),
-  }));
-};
-
-
-describe("Тесты основного компонента", () => {
-  it("Тест - снимок списка перетаскайки", () => {
-    expect(footer).toMatchSnapshot();
+  it("Тест основного", () => {
+    const wrapper = shallow(<Pointapp />);
+    expect(wrapper).toHaveLength(1);
   });
-
-});

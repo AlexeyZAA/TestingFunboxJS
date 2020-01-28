@@ -162,8 +162,6 @@ class Pointapp extends React.Component {
     });
   }
 
-  //метод обновления состояния для координат точек
-
   render() {
     const { items } = this.state;
     return (
@@ -268,7 +266,9 @@ class Pointapp extends React.Component {
           </Content>
         </Layout>
         <Footer style={{ textAlign: "center" }}>
+          <div className={"foot"}>
           <Myfullname firstName="Алексей" lastName="Зубенко" />
+          </div>
         </Footer>
       </Layout>
     );
