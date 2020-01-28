@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[object Object] 1`] = `
+<div
+  class="myfooter"
+>
+  Автор: 
+  <h3>
+     
+    Алексей
+     
+    Зубенко
+     
+  </h3>
+  .
+</div>
+`;
+
+exports[`Тест футера 1`] = `
+<div
+  class="myfooter"
+>
+  Автор: 
+  <h3>
+     
+    Алексей
+     
+    Зубенко
+     
+  </h3>
+  .
+</div>
+`;

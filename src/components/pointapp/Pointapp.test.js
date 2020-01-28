@@ -1,16 +1,13 @@
-import Myfullname from "../Myfullname";
-import React from "react";
-import ReactTestUtils from "react-dom/test-utils";
+import Pointapp from "./Pointapp";
+import { sortableContainer, sortableElement } from "react-sortable-hoc";
 
-describe("Pointapp", () => {
-  test("TestJest", () => {
-    const input = 3;
-    const output = 6;
-    expect(input * 2).toEqual(output);
-  });
+const point = new Pointapp();
 
-  it("TestFooter", () => {
-    const myfullname = ReactTestUtils.renderIntoDocument(<Myfullname />);
-    var h3 = ReactTestUtils.findRenderedDOMComponentWithTag(myfullname, "h3");
-  });
+it("Тест рендер компонента содержащего список точек", () => {
+  expect(point).toMatchSnapshot();
 });
+
+
+it("Тест рендера компонента списка", () => {
+    expect(sortableContainer).toMatchSnapshot();
+  });

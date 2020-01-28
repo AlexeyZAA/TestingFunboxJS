@@ -17,7 +17,6 @@ const SortableItem = sortableElement(({ value }) => (
   <div className={"dli"}>{value}</div>
 ));
 
-
 const SortableContainer = sortableContainer(({ children }) => {
   return <div className={"dul"}>{children}</div>;
 });
