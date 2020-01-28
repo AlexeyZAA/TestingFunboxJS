@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Myfullname from "../Myfullname";
 import "./Sid.css";
-//import Ymap from "../ym/Ymap";
 import { Layout, Input, Button } from "antd";
 import { YMaps, Map, Placemark, Polyline } from "react-yandex-maps";
 
@@ -197,7 +196,7 @@ class Pointapp extends React.Component {
             <SortableContainer onSortEnd={this.onSortEnd}>
               {
                 items.map((value, index) => (
-                  <div>
+                  <div key={index}>
                     <SortableItem
                       key={`item-${index}`}
                       index={index}

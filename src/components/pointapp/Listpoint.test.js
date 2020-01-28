@@ -1,57 +1,26 @@
-import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import { sortableContainer, sortableElement } from "react-sortable-hoc";
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import {sortableContainer, sortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 
-Enzyme.configure({ adapter: new Adapter() });
+const SortableItem = sortableElement(({value}) => <li>{value}</li>);
 
-const items = [
-  {
-    title: "asdas",
-    key: 0,
-    par: {
-      geometry: { type: "Point", coordinates: [53.353929, 83.768455] },
-      properties: {
-        iconContent: "",
-        hintContent: "Узел маршрута",
-        balloonContentHeader: "Название узла",
-        balloonContentBody: "asdas",
-        balloonContentFooter: "Балун всплывайка",
-      },
-      options: { preset: "islands#circleIcon", draggable: true },
-    },
-  },
-  {
-    title: "ssss",
-    key: 1,
-    par: {
-      geometry: { type: "Point" },
-      properties: {
-        iconContent: "",
-        hintContent: "Узел маршрута",
-        balloonContentHeader: "Название узла",
-        balloonContentBody: "ssss",
-        balloonContentFooter: "Балун всплывайка",
-      },
-      options: { preset: "islands#circleIcon", draggable: true },
-    },
-  },
-];
-
-const SortableContainer = sortableContainer(({ children }) => {
-  return <div>{children}</div>;
+const SortableContainer = sortableContainer(({children}) => {
+  return <ul>{children}</ul>;
 });
 
-const SortableItem = sortableElement(({ value }) => <div>{value}</div>);
+items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'];
 
-<SortableContainer onSortEnd={this.onSortEnd}>
-  {items.map((value, index) => (
-    <div>
-      <SortableItem key={`item-${index}`} index={index} value={value.title} />
-    </div>
-  ))}
-</SortableContainer>;
+onSortEnd = ({oldIndex, newIndex}) => {
+  this.setState(({items}) => ({
+    items: arrayMove(items, oldIndex, newIndex),
+  }));
+};
 
-const sortCont = render(SortableContainer);
-it("контейнер сорт листа", () => {
-  expect(sortCont).toMatchSnapshot();
+
+describe("Тесты основного компонента", () => {
+  it("Тест - снимок списка перетаскайки", () => {
+    expect(footer).toMatchSnapshot();
+  });
+
 });

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const Myfullname = ({ firstName, lastName }) => (
-<div class="myfooter">
+<div>
     Автор: <h3> { firstName } { lastName } </h3>.
 </div>
 );

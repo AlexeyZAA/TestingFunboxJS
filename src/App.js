@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import 'antd/dist/antd.css'; 
+import React, { Component } from "react";
+import "antd/dist/antd.css";
 
-import Pointapp from './components/pointapp/Pointapp';
+import Pointapp from "./components/pointapp/Pointapp";
 
 const App = () => (
-  <div class="myapp">
+  <div>
     <Pointapp />
   </div>
-
 );
 
 export default App;
