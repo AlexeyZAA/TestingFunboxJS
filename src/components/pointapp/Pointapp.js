@@ -165,10 +165,10 @@ class Pointapp extends React.Component {
   render() {
     const { items } = this.state
     return (
-      <Layout style={{ width: '100%' }}>
-        <Header style={{ background: '#fff', textAlign: 'center' }}>
+      <Layout className={'lay'}>
+        <Header className={'head'}>
           <h1>
-            <span style={{ fontWeight: 'bold' }}>Построение маршрута</span>
+            <span className={'headmap'}>Построение маршрута</span>
           </h1>
         </Header>
         <Layout>
@@ -212,7 +212,7 @@ class Pointapp extends React.Component {
               ))}
             </SortableContainer>
           </Sider>
-          <Content style={{ margin: '24px 16px 0' }}>
+          <Content className={'cont'}>
             <div>
               <YMaps>
                 <Map
@@ -263,7 +263,7 @@ class Pointapp extends React.Component {
             </div>
           </Content>
         </Layout>
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer className={'foot'}>
           <div className={'foot'}>
             <Myfullname firstName="Алексей" lastName="Зубенко" />
           </div>
