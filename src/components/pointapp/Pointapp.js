@@ -25,14 +25,15 @@ const { Header, Content, Footer } = Layout
 class Pointapp extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      collapsed: false,
-      inputpoint: '',
-      items: [],
-      center: mapState.center,
-      points: [],
-      pointmove: [53.353929, 83.768455],
-    }
+  }
+
+  state = {
+    collapsed: false,
+    inputpoint: '',
+    items: [],
+    center: mapState.center,
+    points: [],
+    pointmove: [53.353929, 83.768455],
   }
 
   getState = () => {
@@ -46,7 +47,7 @@ class Pointapp extends React.Component {
       }),
       () => {
         this.pointCoordUpdate()
-      }
+      },
     )
   }
 
@@ -77,9 +78,9 @@ class Pointapp extends React.Component {
       })
       this.setState({ items: pointArr }, () => {
         let pointCoord = []
-        for (let i = 0; i < this.state.items.length; i++) {
-          pointCoord.push(this.state.items[i].par.geometry.coordinates)
-        }
+        this.state.items.map((val, i) => {
+          pointCoord.push(val.par.geometry.coordinates)
+        })
         this.setState({
           points: pointCoord,
         })
@@ -105,16 +106,18 @@ class Pointapp extends React.Component {
     newitemarr = this.state.items.filter(item => {
       return item.key !== param
     })
-    for (let i = 0; i < newitemarr.length; i++) {
+
+    newitemarr.map((val, i) => {
       newitemarr[i]['key'] = i
-    }
+    })
+
     //через келбэк получаем измененное состояние и переделываем параметры точек
     this.setState({ items: newitemarr }, () => {
       /** делаем массив параметров для геообъектов (вынести в метод)*/
       let geoArrD = []
-      for (let j = 0; j < this.state.items.length; j++) {
-        geoArrD.push(this.state.items[j].par)
-      }
+      this.state.items.map((val, i) => {
+        geoArrD.push(val.par)
+      })
       this.pointCoordUpdate()
     })
     this.setState({ inputpoint: '' })
@@ -154,9 +157,10 @@ class Pointapp extends React.Component {
   //метод обновления состояния координат для точек
   pointCoordUpdate() {
     let tmpCoordPoint = []
-    for (let t = 0; t < this.state.items.length; t++) {
-      tmpCoordPoint.push(this.state.items[t].par.geometry.coordinates)
-    }
+
+    this.state.items.map((val, i) => {
+      tmpCoordPoint.push(val.par.geometry.coordinates)
+    })
     this.setState({
       points: tmpCoordPoint,
     })
@@ -191,7 +195,7 @@ class Pointapp extends React.Component {
               onChange={this.inputChange}
             />
 
-            <SortableContainer onSortEnd={this.onSortEnd} useWindowAsScrollContainer='false'>
+            <SortableContainer onSortEnd={this.onSortEnd}>
               {items.map((value, index) => (
                 <div key={index}>
                   <SortableItem
@@ -229,9 +233,8 @@ class Pointapp extends React.Component {
                       {...pointParams.par}
                     />
                   ))}
-                  }
+
                   <Polyline
-                    //instanceRef={polyline => polyline.editor.startEditing()}
                     geometry={{
                       coordinates: this.state.points,
                     }}
