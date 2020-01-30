@@ -13,11 +13,11 @@ const { Sider } = Layout
 const mapState = { center: [53.353929, 83.768455], zoom: 15 }
 
 const SortableItem = sortableElement(({ value }) => (
-  <div className={'dli'}>{value}</div>
+  <li className={'dli'}>{value}</li>
 ))
 
 const SortableContainer = sortableContainer(({ children }) => {
-  return <div className={'dul'}>{children}</div>
+  return <ul className={'dul'}>{children}</ul>
 })
 
 const { Header, Content, Footer } = Layout
@@ -191,7 +191,7 @@ class Pointapp extends React.Component {
               onChange={this.inputChange}
             />
 
-            <SortableContainer onSortEnd={this.onSortEnd}>
+            <SortableContainer onSortEnd={this.onSortEnd} useWindowAsScrollContainer='false'>
               {items.map((value, index) => (
                 <div key={index}>
                   <SortableItem

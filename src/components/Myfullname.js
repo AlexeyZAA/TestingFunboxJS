@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
-
+import React from 'react'
 
 const Myfullname = ({ firstName, lastName }) => (
-<div> 
-    Автор: <h3> { firstName } { lastName } </h3>.
-</div>
-);
+  <div>
+    Автор:{' '}
+    <h3>
+      {' '}
+      {firstName} {lastName}{' '}
+    </h3>
+    .
+  </div>
+)
 
-export default Myfullname;
+export default Myfullname

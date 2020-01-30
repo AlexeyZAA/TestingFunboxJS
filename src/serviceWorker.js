@@ -9,6 +9,7 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
+/* global fetch:false */
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -36,7 +37,7 @@ export function register (config) {
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl, config);
+        checkValidServiceWorker(swUrl, config)
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
@@ -105,7 +106,7 @@ function checkValidServiceWorker (swUrl, config) {
   })
     .then(response => {
       // Ensure service worker exists, and that we really are getting a JS file.
-      const contentType = response.headers.get('content-type');
+      const contentType = response.headers.get('content-type')
       if (
         response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)
