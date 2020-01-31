@@ -39,6 +39,7 @@ class Ymap extends React.Component {
             instanceRef={map => this.setState({ map })}
             onBoundsChange={this.onBoundsChange}
           >
+            
             {this.props.items.map((pointParams, i) => (
               <Placemark
                 onDrag={e => this.setCoordPoint(i, e)}

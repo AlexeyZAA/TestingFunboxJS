@@ -17,7 +17,7 @@ function Layoutapp(props) {
       </Header>
       <Layoutmap />
       <Footer className={'foot'}>
-        <Footercontent firstName="Алексей" lastName="Зубенко" />
+        <Footercontent firstName='Алексей' lastName='Зубенко' />
       </Footer>
     </Layout>
   )

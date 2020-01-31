@@ -12,9 +12,9 @@ const SortableContainer = sortableContainer(({ children }) => {
 
 function Sid(props) {
   return (
-    <Sider breakpoint="lg" collapsedWidth="0" theme="light">
+    <Sider breakpoint='lg' collapsedWidth='0' theme='light'>
       <Input
-        placeholder="Новая точка маршрута"
+        placeholder='Новая точка маршрута'
         onKeyUp={props.inputPointClean}
         onPressEnter={props.handleEnter}
         value={props.inputpoint}
@@ -29,8 +29,8 @@ function Sid(props) {
               value={value.title}
             />
             <Button
-              type="primary"
-              shape="circle"
+              type='primary'
+              shape='circle'
               onClick={() => {
                 props.itempointDel(value.key)
               }}

@@ -2,12 +2,10 @@ import React from 'react'
 
 const Footercontent = ({ firstName, lastName }) => (
   <div>
-    Автор:{' '}
     <h3>
-      {' '}
-      {firstName} {lastName}{' '}
+    Автор:
+      {firstName} {lastName}
     </h3>
-    .
   </div>
 )
 
