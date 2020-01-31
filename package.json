@@ -1,30 +1,23 @@
 {
-  "name": "appmap",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.8.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^3.26.7",
     "array-move": "^2.2.1",
-    "jest-environment-enzyme": "^7.1.2",
-    "jest-enzyme": "^7.1.2",
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "react-infinite-scroller": "^1.2.4",
-    "react-native-draggable-flatlist": "^2.0.15",
-    "react-scripts": "1.1.4",
-    "react-simple-infinite-loading": "^1.0.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-scripts": "3.3.0",
     "react-sortable-hoc": "^1.11.0",
-    "react-test-renderer": "^16.12.0",
-    "react-yandex-maps": "2.2.0"
+    "react-yandex-maps": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,15 +34,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "husky": "^4.2.1",
-    "jest": "^25.1.0",
-    "lint-staged": "^10.0.4",
-    "prettier": "^1.19.1"
   }
 }

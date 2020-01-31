@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Myfullname = ({ firstName, lastName }) => (
+const Footercontent = ({ firstName, lastName }) => (
   <div>
     Автор:{' '}
     <h3>
@@ -11,4 +11,4 @@ const Myfullname = ({ firstName, lastName }) => (
   </div>
 )
 
-export default Myfullname
+export default Footercontent
