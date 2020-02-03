@@ -1,6 +1,6 @@
 import React from 'react'
 import Footercontent from './Footercontent'
-import Layoutmap from './Layoutmap'
+import LayoutmapContaner from './LayoutmapContaner'
 import { Layout } from 'antd'
 import './Layout.css'
 import 'antd/dist/antd.css'
@@ -15,7 +15,7 @@ function Layoutapp(props) {
           <span className={'headtext'}>Построение маршрута</span>
         </h1>
       </Header>
-      <Layoutmap />
+      <LayoutmapContaner />
       <Footer className={'foot'}>
         <Footercontent firstName='Алексей' lastName='Зубенко' />
       </Footer>

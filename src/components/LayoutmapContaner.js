@@ -11,7 +11,7 @@ const mapState = { center: [53.353929, 83.768455], zoom: 15 }
 
 const { Content } = Layout
 
-class Layoutmap extends React.Component {
+class LayoutmapContaner extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -21,7 +21,7 @@ class Layoutmap extends React.Component {
       center: mapState.center,
       points: [],
       pointmove: [53.353929, 83.768455],
-      map: null,
+      map: null
     }
   }
 
@@ -38,17 +38,17 @@ class Layoutmap extends React.Component {
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState(
       ({ items }) => ({
-        items: arrayMove(items, oldIndex, newIndex),
+        items: arrayMove(items, oldIndex, newIndex)
       }),
       () => {
         this.pointCoordUpdate()
-      },
+      }
     )
   }
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !this.state.collapsed
     })
   }
 
@@ -66,10 +66,10 @@ class Layoutmap extends React.Component {
             hintContent: 'Узел маршрута',
             balloonContentHeader: 'Название узла',
             balloonContentBody: event.target.value,
-            balloonContentFooter: 'Балун всплывайка',
+            balloonContentFooter: 'Балун всплывайка'
           },
-          options: { preset: 'islands#circleIcon', draggable: true },
-        },
+          options: { preset: 'islands#circleIcon', draggable: true }
+        }
       })
       this.setState({ items: pointArr }, () => {
         let pointCoord = []
@@ -77,7 +77,7 @@ class Layoutmap extends React.Component {
           pointCoord.push(val.par.geometry.coordinates)
         })
         this.setState({
-          points: pointCoord,
+          points: pointCoord
         })
       })
     }
@@ -86,7 +86,7 @@ class Layoutmap extends React.Component {
   inputPointClean = event => {
     if (event.keyCode === 13) {
       this.setState({
-        inputpoint: '',
+        inputpoint: ''
       })
     }
   }
@@ -121,21 +121,21 @@ class Layoutmap extends React.Component {
   /** Обновление объекта параметров точки */
   setPointPar = par => {
     this.setState({
-      geoObjPar: par,
+      geoObjPar: par
     })
   }
 
   /** обновление items */
   itemsUpdate = itempar => {
     this.setState({
-      items: itempar,
+      items: itempar
     })
   }
   /** ДЛЯ карты */
   setCenter = par => {
     this.setState({
       //center: this.state.map.getCenter(),
-      center: par,
+      center: par
     })
   }
 
@@ -158,7 +158,7 @@ class Layoutmap extends React.Component {
       tmpCoordPoint.push(val.par.geometry.coordinates)
     })
     this.setState({
-      points: tmpCoordPoint,
+      points: tmpCoordPoint
     })
   }
 
@@ -191,4 +191,4 @@ class Layoutmap extends React.Component {
   }
 }
 
-export default Layoutmap
+export default LayoutmapContaner

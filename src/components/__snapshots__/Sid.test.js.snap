@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`тест снимок списка контрольных узлов маршута  1`] = `
+<DocumentFragment>
+  <aside
+    class="ant-layout-sider ant-layout-sider-light"
+    style="flex: 0 0 200px; max-width: 200px; min-width: 200px; width: 200px;"
+  >
+    <div
+      class="ant-layout-sider-children"
+    >
+      <input
+        class="ant-input"
+        placeholder="Новая точка маршрута"
+        type="text"
+        value=""
+      />
+      <ul
+        class="dul"
+      >
+        <div>
+          <li
+            class="dli"
+          >
+            Точка 1
+          </li>
+          <button
+            class="ant-btn ant-btn-primary ant-btn-circle"
+            type="button"
+          >
+            <span>
+              del
+            </span>
+          </button>
+        </div>
+        <div>
+          <li
+            class="dli"
+          >
+            Точка 2
+          </li>
+          <button
+            class="ant-btn ant-btn-primary ant-btn-circle"
+            type="button"
+          >
+            <span>
+              del
+            </span>
+          </button>
+        </div>
+        <div>
+          <li
+            class="dli"
+          >
+            Точка 3
+          </li>
+          <button
+            class="ant-btn ant-btn-primary ant-btn-circle"
+            type="button"
+          >
+            <span>
+              del
+            </span>
+          </button>
+        </div>
+      </ul>
+    </div>
+  </aside>
+</DocumentFragment>
+`;
