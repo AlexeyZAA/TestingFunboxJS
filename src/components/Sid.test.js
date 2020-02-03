@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Sid from './Sid'
-import renderer from 'react-test-renderer'
+
 /* eslint-env jest */
 
 /** Протестируем ввывод списка точек в Сидебаре, дав ему подготовленные параметры. Формирование параметров в другом тесте */
@@ -63,10 +63,6 @@ const items = [
 ]
 
 test('тест снимок списка контрольных узлов маршута ', () => {
-  // const { asFragment } = render(<Sid items={items} />)
-  // expect(asFragment()).toMatchSnapshot()
-  const tree = renderer
-    .create(<Link page="http://www.facebook.com">Facebook</Link>)
-    .toJSON()
-  expect(tree).toMatchSnapshot()
+  const { asFragment } = render(<Sid items={items} />)
+  expect(asFragment()).toMatchSnapshot()
 })
