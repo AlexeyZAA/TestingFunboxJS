@@ -25,11 +25,6 @@ class LayoutmapContaner extends React.Component {
     }
   }
 
-  /** свойства для примера теста */
-
-  a = () => {return 3}
-  b = (par1, par2) => {return par1*par2}
-  
   setStateMap = map => {
     this.setState({ map: map })
   }
